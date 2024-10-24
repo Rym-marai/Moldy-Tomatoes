@@ -1,0 +1,60 @@
+/* MovieReviews.css */
+
+.movie-reviews {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.movie-reviews h2 {
+  margin-bottom: 20px;
+}
+
+.movie-reviews table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.movie-reviews th,
+.movie-reviews td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.movie-reviews th {
+  background-color: #f2f2f2;
+}
+
+.movie-reviews .delete-icon {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.movie-reviews .button-container {
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 20px;
+}
+
+.movie-reviews .delete-movie-button,
+.movie-reviews .back-to-movie-list-button {
+  padding: 10px 20px;
+  background-color: #257180;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.movie-reviews .delete-movie-button:hover,
+.movie-reviews .back-to-movie-list-button:hover {
+  background-color: #234c64;
+}

@@ -1,0 +1,37 @@
+/* MovieList.css */
+
+.movie-list {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .movie-list h2 {
+    margin-bottom: 20px;
+  }
+  
+  .movie-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+  }
+  
+  .movie-list th,
+  .movie-list td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .movie-list th {
+    background-color: #f2f2f2;
+  }
+  
+  .movie-list .add-movie-button-container {
+    margin-bottom: 20px;
+  }
+  
+  .movie-list button {
+    margin-right: 10px;
+  }
