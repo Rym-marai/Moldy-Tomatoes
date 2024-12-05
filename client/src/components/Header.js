@@ -1,10 +1,18 @@
 import React from 'react';
-import './Header.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/');
+  };
+
   return (
-    <header className="app-header">
-      <h2>Moldy Tomatoes</h2>
+    <header>
+      <h2>Movie Review App</h2>
+      <button onClick={handleLogout}>Logout</button>
     </header>
   );
 };

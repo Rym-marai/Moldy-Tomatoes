@@ -1,76 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import config from '../config'; 
-import LogoutButton from './LogoutButton'; 
-import './AddReview.css';
+import config from '../config'; // Import the configuration file
+import './AddReview.css'; // Import the CSS file
 
 const AddReview = () => {
-  const { movieId } = useParams();
-  const navigate = useNavigate();
-  const [movie, setMovie] = useState(null); 
-  const [name, setName] = useState('');
+  const [movies, setMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState('');
   const [rating, setRating] = useState('');
-  const [text, setText] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchMovies = async () => {
       try {
-        const response = await axios.get(`${config.backendUrl}/movies/${movieId}`);
-        setMovie(response.data);
+        const response = await axios.get(`${config.backendUrl}/movies`);
+        setMovies(response.data);
       } catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.error('Error fetching movies:', error.response ? error.response.data : error.message);
+        setError(error.response ? error.response.data.message : 'Failed to fetch movies.');
       }
     };
 
-    fetchMovieDetails();
-  }, [movieId]);
-
-  useEffect(() => {
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-      setName(userName);
-    }
+    fetchMovies();
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (text.length < 10) {
-      setError('Review text must be at least 10 characters long.');
-      return;
-    }
     try {
-      await axios.post(`${config.backendUrl}/movies/${movieId}/reviews`, {
-        userId: name, 
+      const response = await axios.post(`${config.backendUrl}/reviews`, {
+        movieTitle: selectedMovie,
         rating: parseInt(rating),
-        text,
+        userId: 'currentUserId' // Replace with the actual user ID
       });
-      navigate(`/movies/${movieId}/reviews`); 
+      setSelectedMovie('');
+      setRating('');
     } catch (error) {
-      console.error('Error submitting review:', error);
-      setError('Failed to submit review. Please try again.');
+      console.error('Error adding review:', error.response ? error.response.data : error.message);
+      setError(error.response ? error.response.data.message : 'Failed to add review.');
     }
-  };
-
-  const handleCancel = () => {
-    navigate('/movies'); 
   };
 
   return (
     <div className="add-review">
-      <LogoutButton /> {}
-      <h2>Add a Review for {movie?.title}</h2> {}
-      <form className="add-review-form" onSubmit={handleSubmit}>
+      <h2>Add Review</h2>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            readOnly
-          />
+          <label>Movie:</label>
+          <select value={selectedMovie} onChange={(e) => setSelectedMovie(e.target.value)} required>
+            <option value="">Select a movie</option>
+            {movies.map(movie => (
+              <option key={movie._id} value={movie.title}>{movie.title}</option>
+            ))}
+          </select>
         </div>
         <div>
           <label>Rating:</label>
@@ -83,19 +63,8 @@ const AddReview = () => {
             required
           />
         </div>
-        <div>
-          <label>Review:</label>
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            required
-          />
-        </div>
         {error && <p className="error">{error}</p>}
-        <div className="button-container">
-          <button type="submit">Submit</button>
-          <button type="button" onClick={handleCancel}>Cancel</button>
-        </div>
+        <button type="submit">Submit Review</button>
       </form>
     </div>
   );

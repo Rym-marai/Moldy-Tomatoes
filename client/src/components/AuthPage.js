@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import config from '../config'; 
-import './AuthPage.css'; 
+import config from '../config'; // Import the configuration file
+import './AuthPage.css'; // Import the CSS file
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -22,14 +22,13 @@ const AuthPage = () => {
     }
     try {
       if (isLogin) {
-        console.log('Login Data:', { email, password });
         const response = await axios.post(`${config.backendUrl}/auth/login`, { email, password });
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.userId); 
-        localStorage.setItem('userName', response.data.userName);
-        navigate('/movies');
+        localStorage.setItem('userId', response.data.userId); // Store the user's ID
+        localStorage.setItem('userName', response.data.userName); // Store the user's name
+        localStorage.setItem('role', response.data.role); // Store the user's role
+        navigate('/user-interface');
       } else {
-        console.log('Register Data:', { firstName, lastName, email, password, confirmPassword });
         const response = await axios.post(`${config.backendUrl}/auth/register`, {
           firstName,
           lastName,
@@ -38,9 +37,10 @@ const AuthPage = () => {
           confirmPassword,
         });
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', response.data.userId); 
-        localStorage.setItem('userName', `${firstName} ${lastName}`); 
-        navigate('/movies');
+        localStorage.setItem('userId', response.data.userId); // Store the user's ID
+        localStorage.setItem('userName', `${firstName} ${lastName}`); // Store the user's name
+        localStorage.setItem('role', response.data.role); // Store the user's role
+        navigate('/user-interface');
       }
     } catch (error) {
       console.error('Error:', error);

@@ -1,15 +1,9 @@
 const mongoose = require('mongoose');
 
-const reviewSchema = new mongoose.Schema({
-  userId: String,
-  rating: Number,
-  text: String,
-});
-
 const movieSchema = new mongoose.Schema({
-  title: String,
-  averageRating: Number,
-  reviews: [reviewSchema],
+  title: { type: String, required: true },
+  averageRating: { type: Number, default: 0 },
+  reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 });
 
-module.exports = mongoose.model('Movie', movieSchema);
+module.exports = mongoose.models.Movie || mongoose.model('Movie', movieSchema);
